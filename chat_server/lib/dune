@@ -1,0 +1,7 @@
+(library
+ (name server)
+ (libraries  lwt lwt.unix logs logs.lwt fmt logs.fmt ))
+
+(env
+  (dev
+    (flags (:standard -warn-error -A))))
