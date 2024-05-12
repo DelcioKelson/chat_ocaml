@@ -1,0 +1,4 @@
+(executable
+ (public_name chat_client)
+ (name main)
+ (libraries client))
