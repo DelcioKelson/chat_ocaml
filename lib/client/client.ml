@@ -36,8 +36,8 @@ let start server_address server_port timeout_duration =
   in
   match result with
   | Ok (ic, oc) ->
-      let* () = Lwt_io.printl "type exit to leave" in
       let (ic_io,oc_io) = IO.to_generic_type (ic, oc) in
+      let* () = Lwt_io.printl "type exit to leave" in
       IOHandlers.handle_io (ic_io, oc_io)
   | Error ex -> Lwt_io.printf "%s\n" (Exn.to_string ex)
   )

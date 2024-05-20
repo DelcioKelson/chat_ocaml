@@ -5,7 +5,7 @@ open Base
 module IO = Common.Io_handlers.IODefault
 module IOHandlers = Common.Io_handlers.IOHandlers(IO)
   
-let listen_address = Unix.inet_addr_loopback
+let listen_address = Unix.inet_addr_any
 let backlog = 10
 
 (* Mutex for managing the connection state *)

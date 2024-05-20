@@ -59,7 +59,7 @@ module IOHandlers (IO: IOType) = struct
           let* () = send_message oc (append_current_time msg) in
           handle_output oc
     | None ->
-        Lwt.return_unit
+        handle_output oc
 
   let calculate_rtt send_time =
     let current_time = Unix.gettimeofday () in
@@ -90,6 +90,7 @@ module IOHandlers (IO: IOType) = struct
       handle_receive_error
 
   let close_connection (ic, oc) =
+    let* () = IO.printf "Closing connection\n" in
     let* () = IO.flush oc in 
     let* () = IO.close_ic ic in
     IO.close_oc oc
