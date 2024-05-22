@@ -1,5 +1,8 @@
 open Lwt.Syntax
 
+module Client = Chat_lib.Client.ClientDefaultIO
+module Server = Chat_lib.Server.ServerDefaultIO
+
 let resolve_hostname hostname =
   let open Lwt_unix in
   let* addresses = getaddrinfo hostname "" [AI_FAMILY PF_INET] in

@@ -1,6 +1,6 @@
 (executable
  (public_name chat)
  (name main)
- (libraries client server core core_unix.command_unix unix)
+ (libraries chat_lib core core_unix.command_unix unix)
    (preprocess (pps ppx_jane ppx_let)))
 

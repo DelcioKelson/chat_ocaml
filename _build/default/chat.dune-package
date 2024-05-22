@@ -1,0 +1,4 @@
+(lang dune 3.15)
+(name chat)
+(sections (lib .) (bin ../../bin) (doc ../../doc/chat))
+(files (lib (META dune-package opam)) (bin (chat)) (doc (README.md)))

@@ -1,3 +1,0 @@
-(library
- (name client)
- (libraries  lwt lwt.unix logs logs.lwt str common))
