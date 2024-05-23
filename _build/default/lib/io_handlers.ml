@@ -18,7 +18,8 @@ module type IOType = sig
   Unix.sockaddr ->
   (input_channel * output_channel) Lwt.t
   val fd_to_io : Lwt_unix.file_descr -> input_channel * output_channel
-  val oc_to_string : output_channel ->  string 
+  val oc_to_string : output_channel ->  string
+  val ic_to_string : input_channel ->  string 
 end
 
 
@@ -36,6 +37,7 @@ module IODefault : IOType = struct
   let open_connection = Lwt_io.open_connection
   let fd_to_io fd = Lwt_io.of_fd ~mode:Lwt_io.input fd, Lwt_io.of_fd ~mode:Lwt_io.output fd
   let oc_to_string _oc = ""
+  let ic_to_string _ic = ""
 end
 
 

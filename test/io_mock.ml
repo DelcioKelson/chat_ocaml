@@ -31,5 +31,9 @@ module MockIO : Chat_lib.Io_handlers.IOType = struct
     let oc_content = Lwt_mvar.take_available oc_var |> Option.value ~default:"" in
     oc_content
 
+  let ic_to_string ic_var =
+    let ic_content = Lwt_mvar.take_available ic_var |> Option.value ~default:"" in
+    ic_content
+
  end
   

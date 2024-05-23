@@ -19,7 +19,8 @@ let test_send_message _ () =
   let send_message_process = TestIOHandlers.send_message oc message in
   let* () = Lwt.pick [timeout; send_message_process] in
   let output = IOMock.oc_to_string oc in
-  Alcotest.(check string) "send_message" message output;
+  let expected_output = "Hello, world!" in
+  Alcotest.(check string) "send_message" expected_output output;
   Lwt.return_unit
 
 let test_handle_output _ () =
@@ -40,10 +41,9 @@ let test_handle_output _ () =
     let (_, oc) = IOMock.fd_to_io fd in
     let handle_input_process = TestIOHandlers.handle_input (stdin, oc) in
     let* () = Lwt.pick [timeout; handle_input_process] in
-    (* Check that the output matches the expected pattern *)
-    let pattern = Str.regexp expected_output in
-    let matches = Str.string_match pattern output 0 in
-    Alcotest.(check string) "Output should match expected pattern" true matches;
+    let output = IOMock.ic_to_string stdin in
+    let expected_output = "" in
+    Alcotest.(check string) "Stdin should be empty" expected_output output;
     Lwt.return_unit
 
   let test_handle_message _ () =

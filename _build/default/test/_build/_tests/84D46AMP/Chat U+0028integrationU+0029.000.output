@@ -1,0 +1,12 @@
+Server is not running.
+[33mASSERT[0m Server should be alive
+[1mFile "test/chat_tests.ml", line 44, character 2:
+[0m[31mFAIL[0m Server should be alive
+
+   Expected: `[32mtrue[0m'
+   Received: `[31mfalse[0m'
+
+Raised at Alcotest_engine__Test.check in file "src/alcotest-engine/test.ml", line 200, characters 4-261
+Called from Dune__exe__Chat_tests.test_basic_connection in file "test/chat_tests.ml", line 44, characters 2-69
+Called from Lwt.Sequential_composition.bind.create_result_promise_and_callback_if_deferred.callback in file "src/core/lwt.ml", line 1844, characters 16-19
+
