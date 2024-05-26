@@ -101,12 +101,12 @@ let test_server_persistence () =
   let server_process = 
     let* () = wait 1.0 in
     let* () = Server.start ~port in
-    wait 7.0
+    wait 11.0
   in
 
   (* Start the first client process with a timeout *)
   let client1_process =
-    let* () = wait 2.0 in
+    let* () = wait 3.0 in
     Lwt_unix.with_timeout 4.0 (fun () -> 
       Client.start ~server_address:ip ~server_port:port ~timeout_connection:1.0
     )
@@ -114,12 +114,12 @@ let test_server_persistence () =
 
   (* Start the second client process *)
   let client2_process =
-    let* () = wait 7.0 in
+    let* () = wait 9.0 in
     Client.start ~server_address:ip ~server_port:port ~timeout_connection:1.0
   in
   
   (* Set a timeout for the test *)
-  let test_timeout = wait 7.0 in
+  let test_timeout = wait 10.0 in
 
   (* Run the server and client processes with a timeout *)
   let process = [server_process; client1_process; client2_process; test_timeout] in

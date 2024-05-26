@@ -18,14 +18,13 @@ module MockIO : Chat_lib.Io_handlers.IOType = struct
 
   let close_ic _ic = Lwt.return_unit
   let close_oc _oc = Lwt.return_unit
-  let flush _oc = Lwt.return_unit
-  let printf fmt = Printf.ksprintf (fun s -> Lwt.return (print_endline s)) fmt
+  let printl txt = Lwt_io.printl txt
   let open_connection ?fd:_ ?in_buffer:_ ?out_buffer:_ _addr =
     let ic = Lwt_mvar.create_empty () in
     let oc = Lwt_mvar.create_empty () in
     Lwt.return (ic, oc)
   
-  let fd_to_io _fd = (Lwt_mvar.create_empty (), Lwt_mvar.create_empty ())
+  let fd_to_channels _fd = (Lwt_mvar.create_empty (), Lwt_mvar.create_empty ())
     
   let oc_to_string oc_var = 
     let oc_content = Lwt_mvar.take_available oc_var |> Option.default "" in

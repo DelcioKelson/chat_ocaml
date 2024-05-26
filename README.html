@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
     <title>
-        1. Introduction - HackMD
+        Ahrefs home test task - HackMD
     </title>
     <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
     <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true" style=""><h1 id="Ahrefs-home-test-task" data-id="Ahrefs-home-test-task"><a class="anchor hidden-xs" href="#Ahrefs-home-test-task" title="Ahrefs-home-test-task"><span class="octicon octicon-link"></span></a><span>Ahrefs home test task</span></h1><p><span>Simple one on one chat written in ocaml.</span></p><h2 id="Execution" data-id="Execution"><a class="anchor hidden-xs" href="#Execution" title="Execution"><span class="octicon octicon-link"></span></a><span>Execution</span></h2><p><span>To run the application, you have two different ways:</span></p><ol>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true"><h1 id="Ahrefs-home-test-task" data-id="Ahrefs-home-test-task"><a class="anchor hidden-xs" href="#Ahrefs-home-test-task" title="Ahrefs-home-test-task"><span class="octicon octicon-link"></span></a><span>Ahrefs home test task</span></h1><p><span>Simple one on one chat written in ocaml.</span></p><h2 id="Execution" data-id="Execution"><a class="anchor hidden-xs" href="#Execution" title="Execution"><span class="octicon octicon-link"></span></a><span>Execution</span></h2><p><span>To run the application, you have two different ways:</span></p><ol>
 <li>
 <p><span>Running as a Standalone Tool</span></p>
 </li>
@@ -48,14 +48,14 @@
 </ul><pre><code class="sh hljs">dune <span class="hljs-built_in">exec</span> -- chat -mode server -port 5000
 </code></pre><p><span>This command will run the server on port 5000.</span></p><h4 id="2-Start-the-Client" data-id="2-Start-the-Client"><a class="anchor hidden-xs" href="#2-Start-the-Client" title="2-Start-the-Client"><span class="octicon octicon-link"></span></a><span>2. Start the Client</span></h4><ul>
 <li><span>Once the server is running, you can start the client by executing:</span></li>
-</ul><pre><code class="sh hljs">dune <span class="hljs-built_in">exec</span> -- chat -mode client -port 5001 -ip localhost
+</ul><pre><code class="sh hljs">dune <span class="hljs-built_in">exec</span> -- chat -mode client -port 5000 -ip localhost
 </code></pre><p><span>This command will run the client and connect it to the server running on localhost.</span></p><h4 id="Stopping-the-Server" data-id="Stopping-the-Server"><a class="anchor hidden-xs" href="#Stopping-the-Server" title="Stopping-the-Server"><span class="octicon octicon-link"></span></a><span>Stopping the Server</span></h4><ul>
-<li><span>To stop the server, you can use the following command:</span></li>
+<li><span>To kill the server, you can use the following command:</span></li>
 </ul><pre><code class="sh hljs">dune <span class="hljs-built_in">exec</span> -- chat -mode server -<span class="hljs-built_in">kill</span> 5000
 </code></pre><p><span>This will kill the server process running on port 5000.</span></p><h4 id="Testing-the-Project" data-id="Testing-the-Project"><a class="anchor hidden-xs" href="#Testing-the-Project" title="Testing-the-Project"><span class="octicon octicon-link"></span></a><span>Testing the Project</span></h4><ul>
 <li><span>To test the project, follow any specific testing instructions provided in the project's documentation or run the test suite using:</span></li>
 </ul><pre><code class="sh hljs">dune runtest
-</code></pre><p><span>This command will execute the tests defined in the project.</span></p><h3 id="Running-the-Project-within-Containers" data-id="Running-the-Project-within-Containers"><a class="anchor hidden-xs" href="#Running-the-Project-within-Containers" title="Running-the-Project-within-Containers"><span class="octicon octicon-link"></span></a><span>Running the Project within Containers</span></h3><p><span>To run this project within containers, you need to have Docker installed on your machine. Follow the steps below to get started:</span></p><h4 id="Prerequisites1" data-id="Prerequisites"><a class="anchor hidden-xs" href="#Prerequisites1" title="Prerequisites1"><span class="octicon octicon-link"></span></a><span>Prerequisites</span></h4><ul>
+</code></pre><p><span>This command will execute the tests defined in the project.</span></p><h3 id="Running-the-Project-within-Containers" data-id="Running-the-Project-within-Containers"><a class="anchor hidden-xs" href="#Running-the-Project-within-Containers" title="Running-the-Project-within-Containers"><span class="octicon octicon-link"></span></a><span>Running the Project within Containers</span></h3><h4 id="Prerequisites1" data-id="Prerequisites"><a class="anchor hidden-xs" href="#Prerequisites1" title="Prerequisites1"><span class="octicon octicon-link"></span></a><span>Prerequisites</span></h4><ul>
 <li><span>Ensure Docker is installed and running on your system.</span></li>
 </ul><h4 id="Steps-to-Run-the-Project1" data-id="Steps-to-Run-the-Project"><a class="anchor hidden-xs" href="#Steps-to-Run-the-Project1" title="Steps-to-Run-the-Project1"><span class="octicon octicon-link"></span></a><span>Steps to Run the Project</span></h4><h5 id="1-Start-the-Server-Container" data-id="1-Start-the-Server-Container"><a class="anchor hidden-xs" href="#1-Start-the-Server-Container" title="1-Start-the-Server-Container"><span class="octicon octicon-link"></span></a><span>1. Start the Server Container</span></h5><ul>
 <li><span>Navigate to the root directory of the project and execute the </span><a href="http://server.sh" target="_blank" rel="noopener"><span>server.sh</span></a><span> script to start the server container. Open a terminal and run:</span></li>
@@ -77,13 +77,6 @@
 <li><span>The application should be able to start in two modes: server mode and client mode.</span></li>
 <li><span>In server mode, the application waits for a client to connect.</span></li>
 <li><span>In client mode, the application connects to a server using the provided IP address or hostname.</span></li>
-</ul>
-</li>
-<li>
-<p><strong><span>Connection Establishment:</span></strong></p>
-<ul>
-<li><span>The client should be able to connect to the server using an IP address or hostname.</span></li>
-<li><span>Upon successful connection, the server should be able to communicate with the client.</span></li>
 </ul>
 </li>
 <li>
@@ -152,11 +145,11 @@
                 <i class="fa fa-bars"></i>
             </a>
             <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
-                <div class="toc expand"><ul class="nav">
-<li><a href="#Ahrefs-home-test-task" title="Ahrefs home test task">Ahrefs home test task</a><ul class="nav">
-<li><a href="#Execution" title="Execution">Execution</a><ul class="nav">
+                <div class="toc"><ul class="nav">
+<li class=""><a href="#Ahrefs-home-test-task" title="Ahrefs home test task">Ahrefs home test task</a><ul class="nav">
+<li class=""><a href="#Execution" title="Execution">Execution</a><ul class="nav">
 <li><a href="#Running-the-Project-as-a-Standalone-Tool" title="Running the Project as a Standalone Tool">Running the Project as a Standalone Tool</a></li>
-<li><a href="#Running-the-Project-within-Containers" title="Running the Project within Containers">Running the Project within Containers</a></li>
+<li class=""><a href="#Running-the-Project-within-Containers" title="Running the Project within Containers">Running the Project within Containers</a></li>
 <li><a href="#Functional-Requirements" title="Functional Requirements">Functional Requirements</a></li>
 <li><a href="#Non-Functional-Requirements" title="Non-Functional Requirements">Non-Functional Requirements</a></li>
 </ul>
@@ -164,16 +157,16 @@
 </ul>
 </li>
 </ul>
-</div><div class="toc-menu"><a class="expand-toggle" href="#">Collapse all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
             </ul>
         </div>
     </div>
     <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
-        <div class="toc expand"><ul class="nav">
-<li><a href="#Ahrefs-home-test-task" title="Ahrefs home test task">Ahrefs home test task</a><ul class="nav">
-<li><a href="#Execution" title="Execution">Execution</a><ul class="nav">
+        <div class="toc"><ul class="nav">
+<li class=""><a href="#Ahrefs-home-test-task" title="Ahrefs home test task">Ahrefs home test task</a><ul class="nav">
+<li class=""><a href="#Execution" title="Execution">Execution</a><ul class="nav">
 <li><a href="#Running-the-Project-as-a-Standalone-Tool" title="Running the Project as a Standalone Tool">Running the Project as a Standalone Tool</a></li>
-<li><a href="#Running-the-Project-within-Containers" title="Running the Project within Containers">Running the Project within Containers</a></li>
+<li class=""><a href="#Running-the-Project-within-Containers" title="Running the Project within Containers">Running the Project within Containers</a></li>
 <li><a href="#Functional-Requirements" title="Functional Requirements">Functional Requirements</a></li>
 <li><a href="#Non-Functional-Requirements" title="Non-Functional Requirements">Non-Functional Requirements</a></li>
 </ul>
@@ -181,7 +174,7 @@
 </ul>
 </li>
 </ul>
-</div><div class="toc-menu"><a class="expand-toggle" href="#">Collapse all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
