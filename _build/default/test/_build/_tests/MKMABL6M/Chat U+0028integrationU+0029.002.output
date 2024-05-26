@@ -1,9 +1,0 @@
-Closing connection
-Other side disconnected
-Closing connection
-Client connected.
-Server is already running.
-Connection timed out: Another client may be connected to the server
-[33mASSERT[0m Server should be alive
-[33mASSERT[0m Client 1 should not be alive
-[33mASSERT[0m Client 2 should be alive

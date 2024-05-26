@@ -1,8 +1,0 @@
-Other side disconnected
-Server started and listening for connections on port 5000
-Type 'exit' to leave.
-Client connected.
-Connection established
-Type 'exit' to leave
-[33mASSERT[0m Server should be alive
-[33mASSERT[0m Client should be alive
