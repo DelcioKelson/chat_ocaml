@@ -1,6 +1,6 @@
 open Lwt.Syntax
 open Lwt_unix
-open Stdlib
+open ExtLib
 
 module Server (IO: Io_handlers.IOType) = struct
   module IOHandlers = Io_handlers.IOHandlers(IO)
@@ -19,37 +19,23 @@ module Server (IO: Io_handlers.IOType) = struct
   let log_info message =
     Logs_lwt.info (fun m -> m message)
 
-  let write_pid_file pid_file =
-    let pid = Unix.getpid () in
-    (*write the pid in a file*)
-    let oc = open_out pid_file in
-    output_string oc (Int.to_string pid);
-    close_out oc
+  let delete_file file_name =
+    if Sys.file_exists file_name then Sys.remove file_name
 
-  let read_pid_file pid_file =
-    if Sys.file_exists pid_file then
-      let ic = open_in pid_file in
-      let pid = int_of_string (input_line ic) in
-      close_in ic;
-      Some pid
-    else
-      None
-
-  let delete_pid_file pid_file =
-    if Sys.file_exists pid_file then Sys.remove pid_file
-
-  let is_running port =
+  let is_running ~port:port =
     let pid_file = pid_file_name port in
-    match read_pid_file pid_file with
-    | Some pid ->
-      (try Unix.kill pid 0; true with Unix.Unix_error (Unix.ESRCH, _, _) -> false)
-    | None -> false
+    try 
+      let pid = int_of_string (input_file pid_file) in
+      Unix.kill pid 0;
+      true
+    with _ -> false
 
-  let create_socket listen_address listen_port =
-    let sockaddr = ADDR_INET (listen_address, listen_port) in
+  let create_socket listen_address port =
+    let sockaddr = ADDR_INET (listen_address, port) in
     Lwt.catch
       (fun () ->
         let socket = socket PF_INET SOCK_STREAM 0 in
+        setsockopt socket SO_REUSEADDR true;
         let* () = bind socket sockaddr in
         listen socket backlog;
         Lwt.return socket
@@ -80,17 +66,17 @@ module Server (IO: Io_handlers.IOType) = struct
       (fun () ->
         let* (ic, oc) = accept_connection socket in
         let* () = IOHandlers.send_message oc "connection established" in
-        IOHandlers.handle_io (ic, oc)
+        IOHandlers.handle_io (ic, oc, IO.stdin)
       )
       (fun ex -> log_error "Error handling connection" ex)
     in
     Lwt_mutex.unlock connection_mutex;
     handle_connection socket
 
-  let create_server listen_port =
+  let create_server port =
     Lwt.catch
       (fun () ->
-        let* socket = create_socket listen_address listen_port in
+        let* socket = create_socket listen_address port in
         let* () = Logs_lwt.info (fun m -> m "Server started and listening for connections") in
         let* () = Lwt_io.printl "Server started and listening for connections\nType 'exit' to leave." in
         handle_connection socket
@@ -100,29 +86,33 @@ module Server (IO: Io_handlers.IOType) = struct
         log_error "Error starting server" ex
       )
 
-  let start listen_port =
-    let pid_file = pid_file_name listen_port in
-    if is_running listen_port then
+  let start ~port:port =
+    let pid_file = pid_file_name port in
+    if is_running ~port:port then
       Lwt_io.printl "Server is already running."
     else
       let* () = 
         let* () = Lwt_io.printl "Starting server..." in
-        write_pid_file pid_file;
+        let pid = Int.to_string (Unix.getpid ()) in
+        output_file ~filename:pid_file ~text:pid;
         Lwt.finalize
-          (fun () -> create_server listen_port)
-          (fun () -> Lwt.return (delete_pid_file pid_file))
+          (fun () -> create_server port)
+          (fun () -> Lwt.return (delete_file pid_file))
       in
       Lwt.return_unit
   
-  let kill listen_port =
-    if not (is_running listen_port) then
+  let kill ~port:port =
+    if not (is_running ~port:port) then
       Lwt_io.printl "Server is not running."
     else
-    let pid_file = pid_file_name listen_port in
-    match read_pid_file pid_file with
-    | Some pid ->
-      Unix.kill pid Sys.sigterm;
-      Lwt_io.printl "Server stopped."
-    | None ->
-      Lwt_io.printl "Server is not running."
+      let pid_file = pid_file_name port in
+      try
+        let pid = int_of_string (input_file pid_file) in
+        (* Send termination signal to the server process *)
+        Unix.kill pid Sys.sigterm;
+        delete_file pid_file;
+        Lwt_io.printl "Server stopped."
+      with _ ->
+        Lwt_io.printl "Error trying to stop the server."    
+
 end

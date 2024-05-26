@@ -28,20 +28,21 @@ let parse_ip_or_hostname ip_or_hostname =
           let%map_open mode = flag "mode" (required string) ~doc:"The mode to run in (server or client)"
           and ip_string = flag "ip" (optional_with_default "127.0.0.1" string) ~doc:"IP Address of the server (default:127.0.0.1)"
           and port = flag "port" (optional_with_default 9000 int) ~doc:"Port of the server (default:9000)"
-          and timeout_duration = flag "timeout" (optional_with_default 1. float) ~doc:"The timeout for client-server connection (default:5 secs)" 
-          and kill = flag "kill" (optional int) ~doc:"Kill the server" in
+          and timeout_duration = flag "timeout" (optional_with_default 1. float) ~doc:"timeout The timeout for a client to server connection (default:5 secs)" 
+          and kill = flag "kill" (optional int) ~doc:"port Kill a server" in
           fun () ->
             Lwt_main.run (
             match mode with
             | "server" -> 
               if Option.is_some kill then
-                Server.kill port
+                Server.kill ~port:port
               else
-                Server.start port
+                Server.start ~port:port
             | "client" ->
               let* sockaddr_result = parse_ip_or_hostname ip_string in
               (match sockaddr_result with
-              | Some (Unix.ADDR_INET (ip, _)) -> Client.start ip port timeout_duration
+              | Some (Unix.ADDR_INET (ip, _)) ->
+                 Client.start ~server_address:ip ~server_port:port ~timeout_connection:timeout_duration
               | _ -> Lwt_io.print "Invalid IP address or hostname resolution failed\n")
             | _ -> Lwt_io.print "Invalid mode\n"
         ))

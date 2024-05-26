@@ -16,22 +16,23 @@ module Client (IO: Io_handlers.IOType) = struct
     | Some _ | None -> 
       Lwt.fail (Failure "Connection error: unexpected response from server")
 
-  let connect_to_server server_address server_port timeout_duration =
+  let connect_to_server server_address server_port timeout_connection =
     let sockaddr = Unix.ADDR_INET (server_address, server_port) in
-    Lwt_unix.with_timeout timeout_duration  (fun () -> establish_connection sockaddr)
+    Lwt_unix.with_timeout timeout_connection  (fun () -> establish_connection sockaddr)
 
-  let start server_address server_port timeout_duration =
-      let* result =
-        Lwt.catch
-          (fun () -> connect_to_server server_address server_port timeout_duration)
-          (fun ex ->
-             let* () = Logs_lwt.err (fun m -> m "Failed to connect to the server: %s" (Exn.to_string ex)) in
-             Lwt.return_error (Failure (Printf.sprintf "Failed to connect to the server. Please try again. %s" (Exn.to_string ex))))
-      in
-      match result with
-      | Ok (ic, oc) ->
-          let* () = IO.printf "Type 'exit' to leave\n" in
-          IOHandlers.handle_io ( ic, oc)
-      | Error ex -> IO.printf "%s\n" (Exn.to_string ex)
+  let start ~server_address ~server_port ~timeout_connection =
+    let* result =
+      Lwt.catch
+        (fun () -> connect_to_server server_address server_port timeout_connection)
+        (fun ex ->
+           let* () = Logs_lwt.err (fun m -> m "Failed to connect to the server: %s" (Exn.to_string ex)) in
+           Lwt.return_error (Failure (Printf.sprintf "Failed to connect to the server. Please try again. %s" (Exn.to_string ex))))
+    in
+    match result with
+    | Ok (ic, oc) ->
+        let* () = IO.printf "Type 'exit' to leave\n" in
+        IOHandlers.handle_io ( ic, oc, IO.stdin)
+    | Error ex -> IO.printf "Client error: %s\n" (Exn.to_string ex)
+
 end
 

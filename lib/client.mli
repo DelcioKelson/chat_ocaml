@@ -1,3 +1,3 @@
 module Client (_: Io_handlers.IOType) : sig
-  val start : Unix.inet_addr -> int -> float -> unit Lwt.t
+  val start : server_address:Unix.inet_addr -> server_port:int -> timeout_connection:float -> unit Lwt.t
 end

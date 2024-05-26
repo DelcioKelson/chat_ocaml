@@ -1,0 +1,12 @@
+Closing connection
+Other side disconnected
+Closing connection
+Server is already running.
+Client connected.
+Connection established
+Type 'exit' to leave
+Client error: (Failure
+  "Failed to connect to the server. Please try again. (Lwt_unix.Timeout)")
+[33mASSERT[0m Server should be alive
+[33mASSERT[0m Client 1 should be alive
+[33mASSERT[0m Client 2 should not be alive

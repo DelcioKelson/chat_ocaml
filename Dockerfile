@@ -7,7 +7,7 @@ RUN opam init
 # Install dependencies
 COPY --chown=opam:opam . .
 
-RUN opam install -y dune core lwt lwt_ppx core_unix logs
+RUN opam install -y dune core lwt lwt_ppx core_unix logs extlib alcotest
 
 # Copy the source code
 COPY . .

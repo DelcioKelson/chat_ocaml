@@ -28,11 +28,11 @@ module MockIO : Chat_lib.Io_handlers.IOType = struct
   let fd_to_io _fd = (Lwt_mvar.create_empty (), Lwt_mvar.create_empty ())
     
   let oc_to_string oc_var = 
-    let oc_content = Lwt_mvar.take_available oc_var |> Option.value ~default:"" in
+    let oc_content = Lwt_mvar.take_available oc_var |> Option.default "" in
     oc_content
 
   let ic_to_string ic_var =
-    let ic_content = Lwt_mvar.take_available ic_var |> Option.value ~default:"" in
+    let ic_content = Lwt_mvar.take_available ic_var |> Option.default "" in
     ic_content
 
  end

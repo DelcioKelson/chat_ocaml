@@ -111,9 +111,9 @@ module IOHandlers (IO: IOType) = struct
     let* () = IO.close_ic ic in
     IO.close_oc oc
 
-  let handle_io (ic, oc) =
+  let handle_io (ic, oc,stdin) =
     Lwt.finalize
-      (fun () -> Lwt.pick [handle_input (ic, oc); handle_output (IO.stdin, oc)])
+      (fun () -> Lwt.pick [handle_input (ic, oc); handle_output (stdin, oc)])
       (fun () ->
         Lwt.catch
           (fun () -> close_connection (ic, oc))
