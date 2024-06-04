@@ -1,5 +1,5 @@
-# Ahrefs home test task
-Simple one on one chat written in ocaml.
+# Ocaml chat
+Simple one on one chat written in ocaml, using lwt lib.
 
 ## Execution
     
